@@ -1,0 +1,8 @@
+export { default as TextInput } from './TextInput.vue'
+export { default as ColorInput } from './ColorInput.vue'
+export { default as RadioGroupInput } from './RadioGroupInput.vue'
+export { default as SliderInput } from './SliderInput.vue'
+export { default as PaddingInput } from './PaddingInput.vue'
+export { default as FontFamilyInput } from './FontFamilyInput.vue'
+export { default as NumberInput } from './NumberInput.vue'
+export { default as BooleanInput } from './BooleanInput.vue'

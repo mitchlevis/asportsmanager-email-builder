@@ -5,12 +5,22 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: "cloudflare_module",
-
-    cloudflare: {
-      deployConfig: true,
-      nodeCompat: true
-    }
   },
 
-  modules: ["nitro-cloudflare-dev"]
+  modules: ["nitro-cloudflare-dev", "@pinia/nuxt"],
+
+  build: {
+    transpile: ['vuetify'],
+  },
+
+  css: [
+    'vuetify/styles',
+    '@mdi/font/css/materialdesignicons.css',
+  ],
+
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: '',
+    },
+  },
 })
