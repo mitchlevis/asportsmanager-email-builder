@@ -32,3 +32,12 @@ const wStyle = computed(() => ({
   <div v-if="isMarkdown" :style="wStyle" v-html="renderedHtml" />
   <div v-else :style="wStyle">{{ text }}</div>
 </template>
+
+<style scoped>
+div :deep(> :first-child) {
+  margin-top: 0;
+}
+div :deep(> :last-child) {
+  margin-bottom: 0;
+}
+</style>
