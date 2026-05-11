@@ -275,6 +275,26 @@ function renderSpacer(p: SpacerProps): string {
   return `<div style="height:${height}px"></div>`
 }
 
+function stripEdgeMargins(html: string): string {
+  const blockTagRe = /<(p|ul|ol|h[1-6]|blockquote|div|table|pre)([\s>])/g
+  const matches = Array.from(html.matchAll(blockTagRe))
+  if (matches.length === 0) return html
+
+  const splice = (s: string, i: number, len: number, insert: string) =>
+    s.slice(0, i) + insert + s.slice(i + len)
+
+  if (matches.length === 1) {
+    const m = matches[0]
+    return splice(html, m.index!, m[0].length, `<${m[1]} style="margin-top:0;margin-bottom:0"${m[2]}`)
+  }
+
+  const last = matches[matches.length - 1]
+  html = splice(html, last.index!, last[0].length, `<${last[1]} style="margin-bottom:0"${last[2]}`)
+  const first = matches[0]
+  html = splice(html, first.index!, first[0].length, `<${first[1]} style="margin-top:0"${first[2]}`)
+  return html
+}
+
 function renderText(p: TextProps): string {
   const text = p.props?.text ?? TextPropsDefaults.text
   const isMarkdown = p.props?.markdown ?? false
@@ -287,9 +307,10 @@ function renderText(p: TextProps): string {
     textAlign: p.style?.textAlign ?? undefined,
     padding: getPadding(p.style?.padding),
   })
-  const content = isMarkdown
+  let content = isMarkdown
     ? (marked.parse(text, { async: false }) as string)
     : escapeHtml(text)
+  if (isMarkdown) content = stripEdgeMargins(content)
   return `<div style="${style}">${content}</div>`
 }
 
